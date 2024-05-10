@@ -30,7 +30,7 @@ This guide is assumes a clean installation of Ubuntu 20.04 server.
 
 We presume that the user's home directory serves as the working directory.
 ```bash
-cd
+cd ~
 git clone https://github.com/s3yonsei/rewind_atc24_ae.git
 ```
 
@@ -40,7 +40,7 @@ cd rewind_atc24_ae
 git clone https://github.com/s3yonsei/rewind_serverless.git
 ```
 
-For the experiment, building the modified kernel is essential. Once the above command is executed, the modified kernel will be downloaded into the rewind_serverless/kernel directory. Further details on kernel builds are provided starting from [Section 3](#3-kernel-build).
+For the experiment, building the modified kernel is essential. Once the above command is executed, the modified kernel will be downloaded into the `rewind_serverless/kernel` directory. Further details on kernel builds are provided starting from [Section 3](#3-kernel-build).
 
 ## 3. Kernel Build
 
