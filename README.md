@@ -10,7 +10,7 @@ This repository reproduces the evaluation presented in the paper published at US
 - [1. Configurations](#1-configurations)
 - [2. Getting Started](#2-getting-started)
 - [3. Kernel Build](#3-kernel-build)
-- [4. OpenWhisk Build](#4-openwhisk-build)
+- [4. OpenWhisk Setup](#4-openwhisk-setup)
 
 ## 1. Configurations
 
@@ -38,9 +38,10 @@ Obtain the required code from GitHub by execution the following commands.
 ```bash
 cd rewind_atc24_ae
 git clone https://github.com/s3yonsei/rewind_serverless.git
+git clone -b 1.0.0 https://github.com/apache/openwhisk.git
 ```
 
-For the experiment, building the modified kernel is essential. Once the above command is executed, the modified kernel will be downloaded into the `rewind_serverless/kernel` directory. Further details on kernel builds are provided starting from [Section 3](#3-kernel-build).
+For the experiment, building the modified kernel and configuring the OpenWhisk are essential. Once the above commands are executed, the modified kernel and OpenWhisk will be downloaded into the `rewind_serverless/kernel` and `openwhisk` directories. Further details on kernel build and OpenWhisk setup are provided starting from [Section 3](#3-kernel-build) and [Section 4](#4-openwhisk-setup).
 
 ## 3. Kernel Build
 
@@ -52,10 +53,33 @@ apt-get install build-essential libncurses5 libncurses5-dev bin86 kernel-package
 
 Configure the kernel:
 ```bash
-cd kernel
-
+cd rewind_serverless/kernel
+make olddefconfig
 ```
 
-## 4. OpenWhisk Build
-TBD
+To prepare for building, adjust the `.config` file by setting `CONFIG_SYSTEM_TRUSTED_KETS` and `CONFIG_SYSTEM_REVOCATION_KEYS` to empty strings ("").
+```bash
+CONFIG_SYSTEM_TRUSTED_KEYS=""
+CONFIG_SYSTEM_REVOCATION_KEYS=""
+```
+
+Build the kernel:
+```bash
+make -j$(nproc)
+sudo make modules_install
+sudo make install
+```
+
+Restart the system and boot into the newly built kernel. To verify the kernel version:
+```bash
+uname -r
+```
+
+## 4. OpenWhisk Setup
+
+In the artifact evaluation, OpenWhisk is set up in standalone mode.
+```bash
+cd ~/rewind_atc_24_ae/openwhisk
+./gradlwe core:standalone:bootRun
+```
 
